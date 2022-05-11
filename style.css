@@ -1,0 +1,50 @@
+body {
+    background-color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+}
+/*the calculator display*/
+#display {
+    flex: 1;
+    text-align: right;
+    align-content: center;
+    border: 1px solid black;
+    padding: 0.5rem 1rem;
+    font-size: 20pt;
+    background-color: rgb(37, 114, 72);
+}
+
+#container {
+    flex: 0 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-self: center;
+    
+}
+
+#calc-main {
+    background-color: rgb(49, 88, 105);
+    display: flex;
+    flex-direction: column;
+
+
+}
+/*a row of buttons*/
+.row {
+    flex: 1;
+    display: flex;
+    border: 1px solid black;
+
+}
+
+button {
+    flex: 1;
+    background-color: rgb(49, 88, 105);
+    border: 0px solid blue;
+    margin: 20px;
+}
