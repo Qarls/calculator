@@ -62,33 +62,34 @@ function makeGrid () {
         }
     }
 }
-async function saveSecond(numB) {
-    return numB;
-    
-}
 
 function add(numA, numB) {
+
     let sum = Number(numA) +Number(numB);
-    mem = undefined;
     return sum;
 
-
 }
+
 const calcDisplay = document.querySelector('#display');
 let onDisplay = 0;
 let mem = undefined;
+let mem2 = undefined;
 calcDisplay.textContent = onDisplay;
 
 
+makeGrid();
 const onNumberClick = window.addEventListener('click', (event) => {
     if (event.target.id == 'row') {
         return 0;
     }
     else if (event.target.id === 'AC') {
+        mem = undefined;
+        mem2 = undefined;
         onDisplay = 0;
         calcDisplay.textContent = 0;
     }
     else if (event.target.id === '+') {
+        console.log(event.target.id);
         if (mem === undefined) {
             mem = onDisplay; 
             onDisplay = 0;
@@ -96,7 +97,9 @@ const onNumberClick = window.addEventListener('click', (event) => {
         }
         else {
             onDisplay = add(onDisplay, mem);
+            mem = onDisplay;
             calcDisplay.textContent = onDisplay;
+            onDisplay = 0;
         }
     }
 
@@ -110,4 +113,3 @@ const onNumberClick = window.addEventListener('click', (event) => {
     }
     
 })
-makeGrid();

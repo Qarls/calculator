@@ -46,6 +46,5 @@ body {
 button {
     flex: 1;
     background-color: rgb(49, 88, 105);
-    border: 0px solid blue;
-    margin: 20px;
+    border: 20px solid rgb(49, 88, 105);
 }
