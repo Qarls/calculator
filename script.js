@@ -1,35 +1,31 @@
 //rows of 5 buttons each
 const buttonCodes = {
     //row 0
-    0:'blank',
-    1:'blank',
-    2:'blank',
-    3:'AC',
-    4:'<-',
-    //row 1
-    5:9,
-    6:8,
-    7:7,
-    8:'blank',
-    9:'+',
-    //row 2
-    10:6,
-    11:5,
-    12:4,
-    13:'blank',
-    14:'-',
-    //row 3
-    15:3,
-    16:2,
-    17:1,
-    18:'blank',
-    19:'*',
-    //row 4
-    20:'.',
-    21:0,
-    22:'blank',
-    23:'blank',
-    24:'=',
+    0:[' ', 'blank'],
+    1:[' ', 'blank'],
+    2:[' ', 'blank'],
+    3:['AC', 'AC'],
+    4:['<-', '<-'],
+    5:[9, '9'],
+    6:[8, '8'],
+    7:[7, '7'],
+    8:[' ', 'blank'],
+    9:['+','add'],
+    10:[6, '6'],
+    11:[5, '5'],
+    12:[4, '4'],
+    13:[' ', 'blank'],
+    14:['-', 'subtract'],
+    15:[3, '3'],
+    16:[2, '2'],
+    17:[1, '1'],
+    18:[' ', 'blank'],
+    19:['*', 'multiply'],
+    20:['.', 'dot'],
+    21:[0, '0'],
+    22:[' ', 'blank'],
+    23:[' ', 'blank'],
+    24:['=', 'equals'],
 }
 
 
@@ -51,21 +47,33 @@ function makeGrid () {
         } 
         const buttons = document.querySelectorAll('button');
         for (let i = 0; i < buttons.length; i++) {
-            if (buttonCodes[i] == 'blank') {
-                buttons[i].textContent = ' ';
-                continue;
-            }
-            else {
-                buttons[i].setAttribute('id', buttonCodes[i]);
-                buttons[i].textContent = buttonCodes[i];
-            }
+                let temp = buttonCodes[i];
+                buttons[i].setAttribute('id', temp[1]);
+                buttons[i].textContent = temp[0];
+                console.log(temp[0]);
         }
     }
 }
+
+function clearCalc () {
+
+    calcDisplay.textContent = 0;
+    nowDisplayed = 0;
+    calcMemory = 0;
+
+}
+function clearDisplay () {
+    calcDisplay.textContent = 0;
+}
+
 function printToDisplay (number) {
 
     if (calcDisplay.textContent == 0) {
         calcDisplay.textContent = `${number}`;
+    }
+    else if (calcDisplay.textContent === calcMemory2) {
+        calcDisplay.textContent = `${number}`;
+
     }
     else {
         calcDisplay.textContent = `${calcDisplay.textContent}${number}`;
@@ -73,22 +81,50 @@ function printToDisplay (number) {
 
 }
 
-//function operate ()
-function add(numA, numB) {
+function readDisplay () {
 
-    let sum = Number(numA) +Number(numB);
-    return sum;
+    calcMemory1 = Number(calcDisplay.textContent);
+
+}
+
+function clearDisplay () {
+
+    calcDisplay.textContent = 0;
+
+}
+
+const functions = {
+    AC: clearCalc,
+    add: add,
+}
+
+function operate (operationType) {
+
+    calcMemory2 = calcDisplay.textContent;
+    functions[operationType]();
+
+}
+function add(nextNumber) {
+    addition.classList.add('isPressed');
+    let sum = Number(calcMemory) + Number(nextNumber);
+    calcMemory = Number(sum);
+    calcDisplay.textContent = calcMemory;
+
 
 }
 makeGrid(); 
 
 const calcDisplay = document.querySelector('#display');
-calcDisplay.textContent = 0;
 
+let calcMemory1 = 0;
+let calcMemory2 = 0;
+
+clearCalc();
 
 const eventHandler = window.addEventListener('click', (event) => {
     if (isNaN(parseInt(event.target.id))) {
-        console.log('add');
+        console.log(event.target.id);
+        operate(event.target.id);
 
     }
     else {
