@@ -7,26 +7,26 @@ const buttonCodes = {
     3:'AC',
     4:'<-',
     //row 1
-    5:'9',
-    6:'8',
-    7:'7',
+    5:9,
+    6:8,
+    7:7,
     8:'blank',
     9:'+',
     //row 2
-    10:'6',
-    11:'5',
-    12:'4',
+    10:6,
+    11:5,
+    12:4,
     13:'blank',
     14:'-',
     //row 3
-    15:'3',
-    16:'2',
-    17:'1',
+    15:3,
+    16:2,
+    17:1,
     18:'blank',
     19:'*',
     //row 4
     20:'.',
-    21:'0',
+    21:0,
     22:'blank',
     23:'blank',
     24:'=',
@@ -62,23 +62,43 @@ function makeGrid () {
         }
     }
 }
+function printToDisplay (number) {
 
+    if (calcDisplay.textContent == 0) {
+        calcDisplay.textContent = `${number}`;
+    }
+    else {
+        calcDisplay.textContent = `${calcDisplay.textContent}${number}`;
+    }
+
+}
+
+//function operate ()
 function add(numA, numB) {
 
     let sum = Number(numA) +Number(numB);
     return sum;
 
 }
+makeGrid(); 
 
 const calcDisplay = document.querySelector('#display');
-let onDisplay = 0;
-let mem = undefined;
-let mem2 = undefined;
-calcDisplay.textContent = onDisplay;
+calcDisplay.textContent = 0;
 
 
-makeGrid();
-const onNumberClick = window.addEventListener('click', (event) => {
+const eventHandler = window.addEventListener('click', (event) => {
+    if (isNaN(parseInt(event.target.id))) {
+        console.log('add');
+
+    }
+    else {
+        printToDisplay(event.target.textContent)
+    }
+
+});
+
+
+    /*
     if (event.target.id == 'row') {
         return 0;
     }
@@ -112,5 +132,6 @@ const onNumberClick = window.addEventListener('click', (event) => {
         calcDisplay.textContent = onDisplay;
     }
     
-})
+})*/
+
 //test comment
