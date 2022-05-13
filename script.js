@@ -68,6 +68,7 @@ function printToDisplay (number) {
 
     if (calcDisplay.textContent == 0) {
         calcDisplay.textContent = `${number}`;
+
     }
     else if (pressedButtonId) {
         calcDisplay.textContent = `${number}`;
@@ -77,6 +78,7 @@ function printToDisplay (number) {
     else {
         calcDisplay.textContent = `${calcDisplay.textContent}${number}`;
     }
+    displayValue = Number(calcDisplay.textContent);
 
 }
 
@@ -99,14 +101,21 @@ const functions = {
 
 function operate (operationType) {
 
-    calcMemory2 = calcDisplay.textContent;
-    functions[operationType]();
+    const operationHandler = window.addEventListener('click', (event) => {
+        if (isNaN(parseInt(event.target.id))) {
+            return 0;
+        }
+        else {
+            functions[operationType]();
+        }
+    });
 
 }
-function add(nextNumber) {
-    let sum = Number(calcMemory) + Number(nextNumber);
-    calcMemory = Number(sum);
-    calcDisplay.textContent = calcMemory;
+function add() {
+    let sum = Number(calcMemory) + Number(displayValue);
+    calcDisplay.textContent = sum;
+    calcMemory = sum;
+    
 
 
 }
@@ -117,8 +126,8 @@ makeGrid();
 //the display of the calculator
 const calcDisplay = document.querySelector('#display');
 
-let calcMemory1 = 0;
-let calcMemory2 = 0;
+let calcMemory = 0;
+let displayValue = 0;
 
 let pressedButtonId;
 //stores the 
@@ -131,36 +140,17 @@ const eventHandler = window.addEventListener('click', (event) => {
     if (isNaN(parseInt(event.target.id))) {
         const activeButton = document.querySelector(`#${event.target.id}`);
         pressedButtonId = activeButton.id;
+        calcMemory = displayValue;
+        operate(pressedButtonId);
+        
+
+            
+
+
         //activeButton is a string corresponding to the buttonCodes object
-        if (activeButton.classList.contains(classPressed)) {
-            operate(pressedButtonId);
-        }
-        else {
-            const lastPressed = document.querySelector('.pressed');
-
-            if (pressedButtonId === 'AC') {
-                clearCalc();
-                activeButton.classList.remove(classPressed);
-            }
-            try {
-                lastPressed.classList.remove(classPressed);
-            }
-            catch (TypeError) {}
-            finally {
-                if (pressedButtonId === 'AC' || pressedButtonId === 'equals') {
-
-                }
-                else {
-                    activeButton.classList.add(classPressed);
-                    console.log(activeButton.id);
-                    pressedButtonId = activeButton.id;
-                }
-                
-            }
-
-        }
         console.log(event.target.id);
         //operate(event.target.id);
+
 
     }
     else {
