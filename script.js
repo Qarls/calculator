@@ -58,8 +58,6 @@ function makeGrid () {
 function clearCalc () {
 
     calcDisplay.textContent = 0;
-    nowDisplayed = 0;
-    calcMemory = 0;
 
 }
 function clearDisplay () {
@@ -73,6 +71,7 @@ function printToDisplay (number) {
     }
     else if (pressedButtonId) {
         calcDisplay.textContent = `${number}`;
+        pressedButtonId = undefined;
 
     }
     else {
@@ -87,7 +86,7 @@ function readDisplay () {
 
 }
 
-function clearDisplay () {
+function clearDisplay () {//possible redundancy
 
     calcDisplay.textContent = 0;
 
@@ -111,32 +110,52 @@ function add(nextNumber) {
 
 
 }
+
+//draw the calculator in-browser
 makeGrid(); 
 
+//the display of the calculator
 const calcDisplay = document.querySelector('#display');
 
 let calcMemory1 = 0;
 let calcMemory2 = 0;
+
 let pressedButtonId;
+//stores the 
+const classPressed = 'pressed';
+
 clearCalc();
+//used here to draw a '0' to the display
 
 const eventHandler = window.addEventListener('click', (event) => {
     if (isNaN(parseInt(event.target.id))) {
         const activeButton = document.querySelector(`#${event.target.id}`);
-        //activeButton.setAttribute('isPressed',`${buttonPressed}`);
-        if (activeButton.classList.contains('pressed')) {
-            activeButton.classList.remove('pressed');
-            pressedButtonId = undefined;
+        pressedButtonId = activeButton.id;
+        //activeButton is a string corresponding to the buttonCodes object
+        if (activeButton.classList.contains(classPressed)) {
+            operate(pressedButtonId);
         }
         else {
             const lastPressed = document.querySelector('.pressed');
-            try {
-                lastPressed.classList.remove('pressed');
+
+            if (pressedButtonId === 'AC') {
+                clearCalc();
+                activeButton.classList.remove(classPressed);
             }
+            try {
+                lastPressed.classList.remove(classPressed);
+            }
+            catch (TypeError) {}
             finally {
-                activeButton.classList.add('pressed');
-                console.log(activeButton.id);
-                pressedButtonId = activeButton.id;
+                if (pressedButtonId === 'AC' || pressedButtonId === 'equals') {
+
+                }
+                else {
+                    activeButton.classList.add(classPressed);
+                    console.log(activeButton.id);
+                    pressedButtonId = activeButton.id;
+                }
+                
             }
 
         }
