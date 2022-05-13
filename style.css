@@ -48,3 +48,8 @@ button {
     background-color: rgb(49, 88, 105);
     border: 20px solid rgb(49, 88, 105);
 }
+
+.pressed {
+    border-color: red;
+    border-radius: 10px;
+}

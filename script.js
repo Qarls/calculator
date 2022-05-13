@@ -71,7 +71,7 @@ function printToDisplay (number) {
     if (calcDisplay.textContent == 0) {
         calcDisplay.textContent = `${number}`;
     }
-    else if (calcDisplay.textContent === calcMemory2) {
+    else if (pressedButtonId) {
         calcDisplay.textContent = `${number}`;
 
     }
@@ -105,7 +105,6 @@ function operate (operationType) {
 
 }
 function add(nextNumber) {
-    addition.classList.add('isPressed');
     let sum = Number(calcMemory) + Number(nextNumber);
     calcMemory = Number(sum);
     calcDisplay.textContent = calcMemory;
@@ -118,13 +117,31 @@ const calcDisplay = document.querySelector('#display');
 
 let calcMemory1 = 0;
 let calcMemory2 = 0;
-
+let pressedButtonId;
 clearCalc();
 
 const eventHandler = window.addEventListener('click', (event) => {
     if (isNaN(parseInt(event.target.id))) {
+        const activeButton = document.querySelector(`#${event.target.id}`);
+        //activeButton.setAttribute('isPressed',`${buttonPressed}`);
+        if (activeButton.classList.contains('pressed')) {
+            activeButton.classList.remove('pressed');
+            pressedButtonId = undefined;
+        }
+        else {
+            const lastPressed = document.querySelector('.pressed');
+            try {
+                lastPressed.classList.remove('pressed');
+            }
+            finally {
+                activeButton.classList.add('pressed');
+                console.log(activeButton.id);
+                pressedButtonId = activeButton.id;
+            }
+
+        }
         console.log(event.target.id);
-        operate(event.target.id);
+        //operate(event.target.id);
 
     }
     else {
