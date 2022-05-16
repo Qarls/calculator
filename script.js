@@ -23,9 +23,9 @@ const buttonCodes = {
     19:['*', 'multiply'],
     20:['.', 'dot'],
     21:[0, '0'],
-    22:[' ', 'blank'],
+    22:['=', 'equals'],
     23:[' ', 'blank'],
-    24:['=', 'equals'],
+    24:['/', 'divide'],
 }
 
 
@@ -58,6 +58,20 @@ function makeGrid () {
 function clearCalc () {
 
     calcDisplay.textContent = 0;
+    calcMemory = 0;
+    displayValue = 0;
+    const pressedButtonsAll = document.querySelectorAll('.pressed');
+    for (button of pressedButtonsAll) {
+        try {
+            button.classList.remove(classPressed);
+        }
+        finally {
+            continue
+        }
+
+    }
+    
+
 
 }
 function clearDisplay () {
@@ -97,103 +111,49 @@ function clearDisplay () {//possible redundancy
 const functions = {
     AC: clearCalc,
     add: add,
+    subtract: subtract,
 }
 
 function operate (operationType) {
 
+
     const operationHandler = window.addEventListener('click', (event) => {
-        if (isNaN(parseInt(event.target.id))) {
+
+        try {
+            functions[operationType]();
+            calcMemory = displayValue;
+
+        }
+        catch (TypeError) {
             return 0;
         }
-        else {
-            functions[operationType]();
-        }
+        
     });
 
 }
 function add() {
+
     let sum = Number(calcMemory) + Number(displayValue);
     calcDisplay.textContent = sum;
     calcMemory = sum;
-    
-
 
 }
 
-//draw the calculator in-browser
+function subtract () {
+
+    let diff = Number(calcMemory) - Number(displayValue);
+    calcDisplay.textContent = diff;
+    calcMemory = diff;
+}
+
 makeGrid(); 
 
-//the display of the calculator
 const calcDisplay = document.querySelector('#display');
 
 let calcMemory = 0;
 let displayValue = 0;
 
 let pressedButtonId;
-//stores the 
 const classPressed = 'pressed';
 
 clearCalc();
-//used here to draw a '0' to the display
-
-const eventHandler = window.addEventListener('click', (event) => {
-    if (isNaN(parseInt(event.target.id))) {
-        const activeButton = document.querySelector(`#${event.target.id}`);
-        pressedButtonId = activeButton.id;
-        calcMemory = displayValue;
-        operate(pressedButtonId);
-        
-
-            
-
-
-        //activeButton is a string corresponding to the buttonCodes object
-        console.log(event.target.id);
-        //operate(event.target.id);
-
-
-    }
-    else {
-        printToDisplay(event.target.textContent)
-    }
-
-});
-
-
-    /*
-    if (event.target.id == 'row') {
-        return 0;
-    }
-    else if (event.target.id === 'AC') {
-        mem = undefined;
-        mem2 = undefined;
-        onDisplay = 0;
-        calcDisplay.textContent = 0;
-    }
-    else if (event.target.id === '+') {
-        console.log(event.target.id);
-        if (mem === undefined) {
-            mem = onDisplay; 
-            onDisplay = 0;
-            calcDisplay.textContent = onDisplay;
-        }
-        else {
-            onDisplay = add(onDisplay, mem);
-            mem = onDisplay;
-            calcDisplay.textContent = onDisplay;
-            onDisplay = 0;
-        }
-    }
-
-    else if (onDisplay !== 0) {
-        onDisplay = `${onDisplay}${event.target.id}`;
-        calcDisplay.textContent = onDisplay;
-    }
-    else {
-        onDisplay = `${event.target.id}`;
-        calcDisplay.textContent = onDisplay;
-    }
-    
-})*/
-
-//test comment
