@@ -4,30 +4,29 @@ const buttonCodes = {
     0:[' ', 'blank'],
     1:[' ', 'blank'],
     2:[' ', 'blank'],
-    3:['AC', 'AC'],
-    4:['<-', '<-'],
+    3:['AC', 'AC', 'func'],
+    4:['<-', '<-', 'func'],
     5:[9, '9'],
     6:[8, '8'],
     7:[7, '7'],
     8:[' ', 'blank'],
-    9:['+','add'],
+    9:['+','add', 'func'],
     10:[6, '6'],
     11:[5, '5'],
     12:[4, '4'],
     13:[' ', 'blank'],
-    14:['-', 'subtract'],
+    14:['-', 'subtract', 'func'],
     15:[3, '3'],
     16:[2, '2'],
     17:[1, '1'],
     18:[' ', 'blank'],
-    19:['*', 'multiply'],
+    19:['*', 'multiply', 'func'],
     20:['.', 'dot'],
     21:[0, '0'],
-    22:['=', 'equals'],
+    22:['=', 'equals', 'func'],
     23:[' ', 'blank'],
-    24:['/', 'divide'],
+    24:['/', 'divide', 'func'],
 }
-
 
 function makeGrid () {
     const calcWindow = document.querySelector("#calc-main");
@@ -50,61 +49,52 @@ function makeGrid () {
                 let temp = buttonCodes[i];
                 buttons[i].setAttribute('id', temp[1]);
                 buttons[i].textContent = temp[0];
-                console.log(temp[0]);
         }
     }
 }
 
 function clearCalc () {
 
-    calcDisplay.textContent = 0;
-    calcMemory = 0;
-    displayValue = 0;
-    const pressedButtonsAll = document.querySelectorAll('.pressed');
-    for (button of pressedButtonsAll) {
-        try {
-            button.classList.remove(classPressed);
-        }
-        finally {
-            continue
-        }
-
-    }
-    
-
+    clearDisplay();
 
 }
+
 function clearDisplay () {
+
     calcDisplay.textContent = 0;
+    
 }
 
 function printToDisplay (number) {
-
-    if (calcDisplay.textContent == 0) {
-        calcDisplay.textContent = `${number}`;
-
-    }
-    else if (pressedButtonId) {
-        calcDisplay.textContent = `${number}`;
-        pressedButtonId = undefined;
-
-    }
-    else {
-        calcDisplay.textContent = `${calcDisplay.textContent}${number}`;
-    }
-    displayValue = Number(calcDisplay.textContent);
 
 }
 
 function readDisplay () {
 
-    calcMemory1 = Number(calcDisplay.textContent);
+}
+
+
+function operate (operationType) {
 
 }
 
-function clearDisplay () {//possible redundancy
+function add() {
 
-    calcDisplay.textContent = 0;
+}
+
+function subtract () {
+
+}
+
+function multiply () {
+
+}
+
+function divide () {
+
+}
+
+function equals () {
 
 }
 
@@ -112,48 +102,16 @@ const functions = {
     AC: clearCalc,
     add: add,
     subtract: subtract,
-}
-
-function operate (operationType) {
-
-
-    const operationHandler = window.addEventListener('click', (event) => {
-
-        try {
-            functions[operationType]();
-            calcMemory = displayValue;
-
-        }
-        catch (TypeError) {
-            return 0;
-        }
-        
-    });
-
-}
-function add() {
-
-    let sum = Number(calcMemory) + Number(displayValue);
-    calcDisplay.textContent = sum;
-    calcMemory = sum;
-
-}
-
-function subtract () {
-
-    let diff = Number(calcMemory) - Number(displayValue);
-    calcDisplay.textContent = diff;
-    calcMemory = diff;
+    multiply: multiply,
+    divide: divide, 
+    equals: equals,
 }
 
 makeGrid(); 
 
 const calcDisplay = document.querySelector('#display');
 
-let calcMemory = 0;
-let displayValue = 0;
-
-let pressedButtonId;
-const classPressed = 'pressed';
-
 clearCalc();
+
+
+

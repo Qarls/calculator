@@ -1,20 +1,27 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
 body {
-    background-color: grey;
+    background-color: rgb(30, 30, 30);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    border-radius: 15px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 
 }
 /*the calculator display*/
 #display {
     flex: 1;
     text-align: right;
+    border-radius: 10px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
     align-content: center;
     border: 1px solid black;
     padding: 0.5rem 1rem;
     font-size: 20pt;
-    background-color: rgb(37, 114, 72);
+    background-color: rgb(13, 41, 25);
     text-overflow: clip;
 }
 
@@ -29,7 +36,8 @@ body {
 }
 
 #calc-main {
-    background-color: rgb(49, 88, 105);
+    background-color: rgb(28, 50, 59);
+    border-radius: 19px;
     display: flex;
     flex-direction: column;
 
@@ -39,14 +47,17 @@ body {
 .row {
     flex: 1;
     display: flex;
-    border: 1px solid black;
+    border: none;
 
 }
 
 button {
     flex: 1;
-    background-color: rgb(49, 88, 105);
-    border: 20px solid rgb(49, 88, 105);
+    background-color: rgb(28, 50, 59);
+    border: 20px solid rgb(28, 50, 59);
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }
 
 .pressed {
