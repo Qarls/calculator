@@ -44,18 +44,43 @@ function makeGrid () {
 
             
         } 
-        const buttons = document.querySelectorAll('button');
-        for (let i = 0; i < buttons.length; i++) {
-                let temp = buttonCodes[i];
-                buttons[i].setAttribute('id', temp[1]);
-                buttons[i].textContent = temp[0];
-        }
+    }
+    const buttons = document.querySelectorAll('button');
+    for (let i = 0; i < buttons.length; i++) {
+            let temp = buttonCodes[i];
+            buttons[i].setAttribute('id', temp[1]);
+            buttons[i].textContent = temp[0];
+            if (temp[1] === 'blank') continue;
+            if (typeof(temp[0]) === 'number') {
+                buttons[i].addEventListener('click', (e) => {
+                    printToDisplay (e.target.id);
+                });
+                continue;
+            }
+            if (temp[2] === 'func') {
+                buttons[i].addEventListener('click', (e) => {
+                    try {
+                        const pressedButtons = document.querySelector('.pressed');
+                        if (pressedButtons.classList.contains('pressed')) {
+                            pressedButtons.classList.remove('pressed');
+                    }
+                    }
+                    catch {}
+
+                    e.target.classList.add('pressed');
+                    operate(e.target.id, e);
+                });
+
+            }
+
+
     }
 }
 
 function clearCalc () {
 
     clearDisplay();
+    cleared = true;
 
 }
 
@@ -67,19 +92,58 @@ function clearDisplay () {
 
 function printToDisplay (number) {
 
+    if (calcDisplay.textContent == '0' || newInputReceived == false) {
+        calcDisplay.textContent = `${number}`;
+        newInputReceived = true;
+    }
+    else {
+        calcDisplay.textContent = `${calcDisplay.textContent}${number}`;
+    }
+    newInputReceived = true;
+
+
 }
 
 function readDisplay () {
 
 }
 
+const functions = {
+    AC: clearCalc,
+    add: add,
+    subtract: subtract,
+    multiply: multiply,
+    divide: divide, 
+    equals: equals,
+}
 
-function operate (operationType) {
+function operate (operationType, event) {
+
+    functions[operationType](event);
 
 }
 
-function add() {
+function add(event) {
 
+    if (newInputReceived && cleared) {
+
+        inMemory = calcDisplay.textContent;
+        let result = Number(inMemory) + Number(nextInput);
+        calcDisplay.textContent = result;
+        inMemory = result;
+        newInputReceived = false;
+        cleared = false;
+        return;
+    }
+    if (newInputReceived && !cleared) {
+        nextInput = calcDisplay.textContent;
+        let result = Number(inMemory) + Number(nextInput);
+        calcDisplay.textContent = result;
+        inMemory = result;
+        newInputReceived = false;
+        return;
+    }
+    if (!newInputReceived) return;
 }
 
 function subtract () {
@@ -98,17 +162,11 @@ function equals () {
 
 }
 
-const functions = {
-    AC: clearCalc,
-    add: add,
-    subtract: subtract,
-    multiply: multiply,
-    divide: divide, 
-    equals: equals,
-}
-
 makeGrid(); 
-
+let inMemory = 0;
+let nextInput = 0;
+let newInputReceived = false;
+let cleared = true;
 const calcDisplay = document.querySelector('#display');
 
 clearCalc();
