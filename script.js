@@ -62,13 +62,25 @@ function makeGrid () {
                     try {
                         const pressedButtons = document.querySelector('.pressed');
                         if (pressedButtons.classList.contains('pressed')) {
+                            currentOperation = pressedButtons.id;
+
+
                             pressedButtons.classList.remove('pressed');
                     }
                     }
                     catch {}
 
                     e.target.classList.add('pressed');
+                    if (e.target.id === 'equals' || e.target.id === 'AC') {
+                        e.target.classList.remove('pressed');
+                        if (e.target.id === 'AC') {
+                            clearCalc();
+                            return;
+                            
+                        }
+                    }
                     operate(e.target.id, e);
+                    
                 });
 
             }
@@ -79,8 +91,14 @@ function makeGrid () {
 
 function clearCalc () {
 
-    clearDisplay();
+    inMemory = 0;
+    nextInput = 0;
+    currentOperation = null;
+
+    newInputReceived = false;
     cleared = true;
+    clearDisplay();
+    return 0;
 
 }
 
@@ -117,11 +135,6 @@ const functions = {
     equals: equals,
 }
 
-function operate (operationType, event) {
-
-
-}
-
 function operate(operationType) {
 
     if (newInputReceived && cleared) {
@@ -142,7 +155,7 @@ function operate(operationType) {
         newInputReceived = false;
         return;
     }
-    if (!newInputReceived) return;
+    return;
 }
 
 function add () {
@@ -162,6 +175,8 @@ function divide () {
 }
 
 function equals () {
+    return functions[currentOperation]();
+
 
 }
 
@@ -170,6 +185,7 @@ let inMemory = 0;
 let nextInput = 0;
 let newInputReceived = false;
 let cleared = true;
+let currentOperation;
 const calcDisplay = document.querySelector('#display');
 
 clearCalc();
