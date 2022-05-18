@@ -119,16 +119,15 @@ const functions = {
 
 function operate (operationType, event) {
 
-    functions[operationType](event);
 
 }
 
-function add(event) {
+function operate(operationType) {
 
     if (newInputReceived && cleared) {
 
         inMemory = calcDisplay.textContent;
-        let result = Number(inMemory) + Number(nextInput);
+        let result = functions[operationType]();
         calcDisplay.textContent = result;
         inMemory = result;
         newInputReceived = false;
@@ -137,7 +136,7 @@ function add(event) {
     }
     if (newInputReceived && !cleared) {
         nextInput = calcDisplay.textContent;
-        let result = Number(inMemory) + Number(nextInput);
+        let result = functions[operationType]();
         calcDisplay.textContent = result;
         inMemory = result;
         newInputReceived = false;
@@ -146,16 +145,20 @@ function add(event) {
     if (!newInputReceived) return;
 }
 
-function subtract () {
+function add () {
+    return Number(inMemory) + Number(nextInput);
+}
 
+function subtract () {
+    return Number(inMemory) - Number(nextInput);
 }
 
 function multiply () {
-
+    return Number(inMemory) * Number(nextInput);
 }
 
 function divide () {
-
+    return Number(inMemory) / Number(nextInput);
 }
 
 function equals () {
