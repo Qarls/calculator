@@ -1,2 +1,4 @@
 # calculator
-Simple calculator web app
+#### This is an unfinished project
+A basic calculator web app, made with vanilla javascript. 
+
